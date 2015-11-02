@@ -47,9 +47,14 @@ public class Agent extends Thread {
     public Case getBut() {
         return but;
     }
+    
+    public boolean isSatisfy()
+    {
+        return but.equals(actual);
+    }
 
     @Override
     public void run() {
-        
+       
     }
 }
