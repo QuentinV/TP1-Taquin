@@ -4,19 +4,12 @@
  * and open the template in the editor.
  */
 
-package tp1.taquin;
+package communication;
 
 /**
  *
  * @author p1308391
  */
-public class TP1Taquin {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
+public enum Action {
+    MOVE
 }
