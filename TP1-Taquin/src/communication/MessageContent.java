@@ -58,4 +58,9 @@ public class MessageContent {
     public void setFinalPos(Point finalPos) {
         this.finalPos = finalPos;
     }
+
+    @Override
+    public String toString() {
+        return getTrans()+" : "+getAction()+" - "+getNextPos()+" / "+getFinalPos();
+    }
 }

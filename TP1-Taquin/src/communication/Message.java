@@ -12,13 +12,10 @@ public class Message {
     
     private MessageContent content;
 
-    private Transaction transaction;
-
-    public Message(Agent emetteur, Agent destination, MessageContent content, Transaction transaction) {
+    public Message(Agent emetteur, Agent destination, MessageContent content) {
         this.emetteur = emetteur;
         this.destination = destination;
         this.content = content;
-        this.transaction = transaction;
     }
 
     public Agent getEmetteur() {
@@ -45,11 +42,8 @@ public class Message {
         this.content = content;
     }
 
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    @Override
+    public String toString() {
+        return "["+emetteur+"], ["+destination+"] : "+content;
     }
 }

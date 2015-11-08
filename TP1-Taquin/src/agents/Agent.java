@@ -4,6 +4,7 @@ package agents;
 import communication.Action;
 import communication.BoiteAuxLettres;
 import communication.Message;
+import communication.Transaction;
 import environnement.Case;
 import environnement.Grille;
 import java.awt.Point;
@@ -60,15 +61,30 @@ public class Agent extends Thread {
         for (;;) {
             System.out.println(this);
 
-           /* Message m = BoiteAuxLettres.pollFirst(this);
+            Message m = BoiteAuxLettres.pollFirst(this);
             if (m != null)
             { //do message
-                if (m.getContent().getAction() == Action.MOVE)
+                //Requete
+                if (m.getContent().getTrans() == Transaction.REQUEST)
                 {
 
                 }
-            }*/
-            break;
+                //Reponse
+                else if (m.getContent().getTrans() == Transaction.RESPONSE)
+                { //Can move
+
+                }
+            } else if (this.isSatisfy())
+            {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else
+            { //Write message to move
+                System.out.println("Message "+this+" to move left or right");
+            }
         }
     }
 
