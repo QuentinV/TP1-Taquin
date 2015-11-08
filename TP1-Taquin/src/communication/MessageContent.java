@@ -6,6 +6,8 @@
 
 package communication;
 
+import agents.Agent;
+
 import java.awt.Point;
 
 /**
@@ -56,6 +58,4 @@ public class MessageContent {
     public void setFinalPos(Point finalPos) {
         this.finalPos = finalPos;
     }
-    
-    
 }

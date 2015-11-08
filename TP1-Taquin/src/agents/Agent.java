@@ -1,6 +1,9 @@
 
 package agents;
 
+import communication.Action;
+import communication.BoiteAuxLettres;
+import communication.Message;
 import environnement.Case;
 import environnement.Grille;
 import java.awt.Point;
@@ -11,24 +14,23 @@ import java.util.Map;
  * @author p1308391
  */
 public class Agent extends Thread {
-    private final Case but;
-    private Case actual;
+    private final Point but;
+    private Point actual;
     private Map<Agent, Point> environnement;
     private final Grille grille;
     
     //boite aux lettres
-    public Agent(Case but, Case actual, Map<Agent, Point> environnement, Grille grille) {
+    public Agent(Point but, Point actual, Grille grille) {
         this.but = but;
         this.actual = actual;
-        this.environnement = environnement;
         this.grille = grille;
     }
 
-    public Case getActual() {
+    public Point getActual() {
         return actual;
     }
 
-    public void setActual(Case actual) {
+    public void setActual(Point actual) {
         this.actual = actual;
     }
 
@@ -44,7 +46,7 @@ public class Agent extends Thread {
         return grille;
     }
 
-    public Case getBut() {
+    public Point getBut() {
         return but;
     }
     
@@ -55,6 +57,23 @@ public class Agent extends Thread {
 
     @Override
     public void run() {
-       
+        for (;;) {
+            System.out.println(this);
+
+           /* Message m = BoiteAuxLettres.pollFirst(this);
+            if (m != null)
+            { //do message
+                if (m.getContent().getAction() == Action.MOVE)
+                {
+
+                }
+            }*/
+            break;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Agent "+but;
     }
 }
