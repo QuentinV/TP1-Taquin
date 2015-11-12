@@ -1,10 +1,11 @@
 package ui;
 
 import controller.Solve;
-import environnement.Case;
+import environnement.Block;
 import environnement.Grille;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
@@ -35,6 +36,7 @@ public class MainWindow extends JFrame implements Observer {
         this.getContentPane().add(titre, BorderLayout.NORTH);
 
         p = new JPanel();
+        p.setBorder(new EmptyBorder(10, 50, 10, 50));
         p.setLayout(new GridBagLayout());
 
         this.update();
@@ -51,7 +53,8 @@ public class MainWindow extends JFrame implements Observer {
 
     private void update()
     {
-        System.out.println("Update");
+        if (Main.DEBUG)
+            System.out.println("Update view");
 
         p.removeAll();
         p.validate();
@@ -62,19 +65,20 @@ public class MainWindow extends JFrame implements Observer {
 
         for (int x = 0; x < modGrille.getSizeX(); ++x)
             for (int y = 0; y < modGrille.getSizeY(); ++y) {
-                c.gridx = x;
-                c.gridy = y;
+                c.gridx = y;
+                c.gridy = x;
 
-                Case mc = modGrille.getCaseAt(x, y);
+                Block mc = modGrille.getCaseAt(x, y);
 
-                if (mc != null)
-                {
-                    JLabel l = new JLabel(String.valueOf(mc.getNum()));
-                    l.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-                    l.setHorizontalAlignment(JLabel.CENTER);
+                //label
+                String str = (mc != null) ? String.valueOf(mc.getNum()) : "";
 
-                    p.add(l, c);
-                }
+                JLabel l = new JLabel(str);
+                l.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+                l.setHorizontalAlignment(JLabel.CENTER);
+                l.setPreferredSize(new Dimension(40, 40));
+
+                p.add(l, c);
             }
 
         p.validate();
@@ -83,5 +87,13 @@ public class MainWindow extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         this.update();
+
+        if (Main.DEBUG) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

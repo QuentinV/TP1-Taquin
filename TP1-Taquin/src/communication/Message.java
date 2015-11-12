@@ -9,6 +9,7 @@ import agents.Agent;
 public class Message {
     private Agent emetteur;
     private Agent destination;
+    //ajouter origine demande
     
     private MessageContent content;
 

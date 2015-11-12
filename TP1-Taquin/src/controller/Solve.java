@@ -1,7 +1,7 @@
 package controller;
 
 import agents.Agent;
-import environnement.Case;
+import environnement.Block;
 import environnement.Grille;
 import ui.MainWindow;
 
@@ -17,7 +17,7 @@ public class Solve implements ActionListener {
     private final MainWindow view;
 
     public List<Agent> agents;
-    private Map<Agent, Point> env;
+    private Map<Agent, Block> env;
 
     public Solve(MainWindow view) {
         this.view = view;
@@ -34,13 +34,13 @@ public class Solve implements ActionListener {
             for (int y = 0; y < g.getSizeY(); ++y)
             {
                 //1 agent pour chaque case non nulle
-                Case c = g.getCaseAt(x, y);
+                Block c = g.getCaseAt(x, y);
                 if (c != null)
                 {
                     Point posActual = new Point(x, y);
 
-                    Agent a = new Agent(c.getGoal(), posActual, g);
-                    env.put(a, posActual);
+                    Agent a = new Agent(c, g);
+                    env.put(a, c);
                     a.setEnvironnement(env);
 
                     agents.add(a);

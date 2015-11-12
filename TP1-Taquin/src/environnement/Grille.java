@@ -1,6 +1,8 @@
 
 package environnement;
 
+import ui.Main;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -9,68 +11,70 @@ import java.util.List;
  *
  * @author p1308391
  */
-public class Grille extends Observable {
-    private final Case[][] cases;
+public class Grille extends Observable implements Observer {
+    private final Block[][] blocks;
     private final int sizeX;
     private final int sizeY;
 
-    public Grille(int x, int y) {
-        this.cases = new Case[x][y];
+    private final double percentFull;
+
+    public Grille(int x, int y, double percentFull) {
+        this.blocks = new Block[x][y];
         this.sizeX = x;
         this.sizeY = y;
+
+        if (percentFull > 100)
+            this.percentFull = 100;
+        else if (percentFull < 0)
+            this.percentFull = 0;
+        else
+            this.percentFull = percentFull;
 
         setup();
     }
 
     private void setup() {
-        System.out.println("Setup grille");
+        if (Main.DEBUG)
+            System.out.println("Setup grille");
 
-        //generate x * y - 1 cases random
-        List<Integer> l = new ArrayList<>();
-        for (int i = 1; i < sizeY * sizeY; ++i)
-            l.add(i);
-        Collections.shuffle(l);
+        Random r = new Random();
 
-        int index = 0;
-        for (int x = 0; x < sizeX; ++x)
-            for (int y = 0; y < sizeY; ++y)
-                try {
-                    int n = l.get(index++);
-                    Point goal = new Point(0, 0);
-                    goal.x = n / sizeY;
-                    goal.y = n - goal.x * sizeY;
-                    cases[x][y] = new Case(n, goal);
-                } catch (Exception e) {
-                    break;
-                }
+        int nbToGenerate = new Double(this.percentFull * (sizeX * sizeY - 1) / 100).intValue();
+
+        for (int i = 1; i <= nbToGenerate; ++i)
+        {
+            //generate random x & y until a null case have been found
+            int x, y;
+            do {
+                x = r.nextInt(sizeX);
+                y = r.nextInt(sizeY);
+            } while(blocks[x][y] != null);
+
+            //Add new block
+            Point goal = new Point(0, 0);
+            goal.x = i / sizeY;
+            goal.y = i - goal.x * sizeY;
+            Block b = new Block(i, goal, new Point(x, y));
+            b.addObserver(this);
+            blocks[x][y] = b;
+        }
     }
 
-    synchronized public boolean move(Point p, Point p2)
-    {
-        if (p == null || p2 == null) return false;
-
-        if (cases[p.x][p.y] == null)
-        {
-            System.out.println(p+" is empty. Nothing to move.");
-            return false;
-        }
-
-        if(cases[p2.x][p2.y] != null)
-        {
-            System.out.println(p2+" is not empty");
-            return false;
-        }
-
-        cases[p2.x][p2.y] = cases[p.x][p.y]; //move
-
-        return true;
-    }
-
-    public Case getCaseAt(int x, int y)
+    public Block getCaseAt(int x, int y)
     {
         if (x > sizeX || x < 0 || y < 0 || y > sizeY)
             return null;
-        return cases[x][y];
+        return blocks[x][y];
+    }
+
+    public boolean checkCaseAt(int x, int y)
+    {
+        return !(x > sizeX || x < 0 || y < 0 || y > sizeY) && blocks[x][y] != null;
+    }
+
+    public boolean checkCaseAt(Point p)
+    {
+        return p != null && checkCaseAt(p.x, p.y);
     }
 
     public int getSizeX() {
@@ -79,5 +83,37 @@ public class Grille extends Observable {
 
     public int getSizeY() {
         return sizeY;
+    }
+
+    /**
+     * Verifier si mouvement case possible
+     */
+    public boolean checkMoveCase(Block c)
+    {
+        if (c == null) return false;
+        if (c.getPrevious() == null || c.getActual() == null) return false;
+
+        Point actual = c.getActual();
+
+        return (this.blocks[actual.x][actual.y] == null);
+    }
+
+    /**
+     * Update from Block
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == null) return;
+
+        if (o instanceof Block) {
+            Block c = (Block) o;
+
+            if (!this.checkMoveCase(c))
+                c.rollback();
+
+            //Notifier View
+            setChanged();
+            notifyObservers();
+        }
     }
 }
