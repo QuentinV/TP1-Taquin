@@ -31,28 +31,45 @@ public class Block extends Observable {
         return actual;
     }
 
-    public void setActual(Point actual) {
-        this.actual = actual;
+    public void move(int offsetx, int offsety)
+    {
+        this.previous = new Point(this.actual.x, this.actual.y);
+        this.actual.x += offsetx;
+        this.actual.y += offsety;
+
         setChanged();
         notifyObservers();
     }
 
-    public void rollback()
+    public void move(Point p)
     {
-        Point p = this.actual;
-        this.actual = this.previous;
-        this.previous = null;
+        if (p == null) return;
+
+        this.previous = new Point(this.actual.x, this.actual.y);
+        this.actual = p;
+
+        setChanged();
+        notifyObservers();
     }
 
     public Point getPrevious() {
         return previous;
     }
 
-    public void setPrevious(Point previous) {
-        this.previous = previous;
+    public void rollback()
+    {
+        if (this.previous == null) return;
+
+        this.actual = this.previous;
+        this.previous = null;
     }
 
     public boolean isSatisfy() {
         return goal.equals(actual);
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.num)+" "+getActual();
     }
 }

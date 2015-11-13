@@ -41,7 +41,7 @@ public class Grille extends Observable implements Observer {
 
         int nbToGenerate = new Double(this.percentFull * (sizeX * sizeY - 1) / 100).intValue();
 
-        for (int i = 1; i <= nbToGenerate; ++i)
+        for (int i = 0; i < nbToGenerate; ++i)
         {
             //generate random x & y until a null case have been found
             int x, y;
@@ -69,7 +69,7 @@ public class Grille extends Observable implements Observer {
 
     public boolean checkCaseAt(int x, int y)
     {
-        return !(x > sizeX || x < 0 || y < 0 || y > sizeY) && blocks[x][y] != null;
+        return !(x >= sizeX || x < 0 || y < 0 || y >= sizeY) && blocks[x][y] != null;
     }
 
     public boolean checkCaseAt(Point p)
@@ -88,14 +88,34 @@ public class Grille extends Observable implements Observer {
     /**
      * Verifier si mouvement case possible
      */
-    public boolean checkMoveCase(Block c)
+    private boolean checkMoveCase(Block b)
     {
-        if (c == null) return false;
-        if (c.getPrevious() == null || c.getActual() == null) return false;
+        if (b == null) return false;
+        if (b.getPrevious() == null || b.getActual() == null) return false;
 
-        Point actual = c.getActual();
+        Point actual = b.getActual();
 
-        return (this.blocks[actual.x][actual.y] == null);
+        try {
+            return (this.blocks[actual.x][actual.y] == null);
+        } catch(Exception e)
+        {
+            return false;
+        }
+    }
+
+    public synchronized boolean moveBlock(Block b)
+    {
+        if (!checkMoveCase(b))
+        {
+            System.out.println("Rollback "+b);
+            b.rollback();;
+            return false;
+        }
+
+        this.blocks[b.getActual().x][b.getActual().y] = b;
+        this.blocks[b.getPrevious().x][b.getPrevious().y] = null;
+
+        return true;
     }
 
     /**
@@ -106,14 +126,14 @@ public class Grille extends Observable implements Observer {
         if (o == null) return;
 
         if (o instanceof Block) {
-            Block c = (Block) o;
+            Block b = (Block) o;
 
-            if (!this.checkMoveCase(c))
-                c.rollback();
-
-            //Notifier View
-            setChanged();
-            notifyObservers();
+            if (moveBlock(b)) {
+                //Notifier View
+                System.out.println("Update grille");
+                setChanged();
+                notifyObservers();
+            }
         }
     }
 }

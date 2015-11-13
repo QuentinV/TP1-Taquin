@@ -17,7 +17,7 @@ public class Solve implements ActionListener {
     private final MainWindow view;
 
     public List<Agent> agents;
-    private Map<Agent, Block> env;
+    private Map<Block, Agent> env;
 
     public Solve(MainWindow view) {
         this.view = view;
@@ -37,10 +37,8 @@ public class Solve implements ActionListener {
                 Block c = g.getCaseAt(x, y);
                 if (c != null)
                 {
-                    Point posActual = new Point(x, y);
-
                     Agent a = new Agent(c, g);
-                    env.put(a, c);
+                    env.put(c, a);
                     a.setEnvironnement(env);
 
                     agents.add(a);

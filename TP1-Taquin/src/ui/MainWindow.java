@@ -58,6 +58,7 @@ public class MainWindow extends JFrame implements Observer {
 
         p.removeAll();
         p.validate();
+        p.repaint();
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
