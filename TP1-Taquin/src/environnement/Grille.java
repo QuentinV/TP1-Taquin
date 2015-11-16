@@ -54,7 +54,20 @@ public class Grille extends Observable implements Observer {
             Point goal = new Point(0, 0);
             goal.x = i / sizeY;
             goal.y = i - goal.x * sizeY;
-            Block b = new Block(i, goal, new Point(x, y));
+
+            int priority;
+            if ((goal.x == 0 && goal.y == 0) || (goal.x == sizeX-1 && goal.y == sizeY-1))
+            { //Coins
+                priority = 1;
+            } else if (goal.x == sizeX-1 || goal.x == 0 || goal.y == 0 || goal.y == sizeY-1)
+            { //lignes
+                priority = 2;
+            } else
+            { //milieu
+                priority = 3;
+            }
+
+            Block b = new Block(i, goal, new Point(x, y), priority);
             b.addObserver(this);
             blocks[x][y] = b;
         }
@@ -108,7 +121,7 @@ public class Grille extends Observable implements Observer {
         if (!checkMoveCase(b))
         {
             System.out.println("Rollback "+b);
-            b.rollback();;
+            b.rollback();
             return false;
         }
 
@@ -130,9 +143,10 @@ public class Grille extends Observable implements Observer {
 
             if (moveBlock(b)) {
                 //Notifier View
-                System.out.println("Update grille");
                 setChanged();
                 notifyObservers();
+            } else {
+                System.out.println("CONFLICT : ROLLBACK");
             }
         }
     }

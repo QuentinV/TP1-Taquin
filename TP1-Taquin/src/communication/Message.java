@@ -9,14 +9,30 @@ import agents.Agent;
 public class Message {
     private Agent emetteur;
     private Agent destination;
-    //ajouter origine demande
-    
+
     private MessageContent content;
+
+    private Message attach;
 
     public Message(Agent emetteur, Agent destination, MessageContent content) {
         this.emetteur = emetteur;
         this.destination = destination;
         this.content = content;
+    }
+
+    public Message(Agent emetteur, Agent destination, MessageContent content, Message attach) {
+        this.emetteur = emetteur;
+        this.destination = destination;
+        this.content = content;
+        this.attach = attach;
+    }
+
+    public Message getAttach() {
+        return attach;
+    }
+
+    public void setAttach(Message attach) {
+        this.attach = attach;
     }
 
     public Agent getEmetteur() {

@@ -19,44 +19,38 @@ public class MessageContent {
     private Action action;
     private Point nextPos;
     private Point finalPos;
+    private Point currentPos;
 
-    public MessageContent(Transaction trans, Action action, Point nextPos, Point finalPos) {
+    public MessageContent(Transaction trans, Action action, Point currentPos, Point nextPos, Point finalPos) {
         this.trans = trans;
         this.action = action;
         this.nextPos = nextPos;
         this.finalPos = finalPos;
-    }
-
-    public Transaction getTrans() {
-        return trans;
+        this.currentPos = currentPos;
     }
 
     public void setTrans(Transaction trans) {
         this.trans = trans;
     }
 
-    public Action getAction() {
-        return action;
+    public Point getCurrentPos() {
+        return currentPos;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
+    public Transaction getTrans() {
+        return trans;
+    }
+
+    public Action getAction() {
+        return action;
     }
 
     public Point getNextPos() {
         return nextPos;
     }
 
-    public void setNextPos(Point nextPos) {
-        this.nextPos = nextPos;
-    }
-
     public Point getFinalPos() {
         return finalPos;
-    }
-
-    public void setFinalPos(Point finalPos) {
-        this.finalPos = finalPos;
     }
 
     @Override

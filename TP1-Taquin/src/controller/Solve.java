@@ -27,6 +27,9 @@ public class Solve implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        view.getbSolve().setEnabled(false);
+        view.getbSolve().setText("Solving...");
+
         Grille g = view.getModGrille();
 
         //creation des agents
@@ -48,5 +51,20 @@ public class Solve implements ActionListener {
         //Demarrer tous les agents
         for (Agent a : agents)
             a.start();
+
+        //Attendre la fin des agents
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (Agent a : agents)
+                    try {
+                        a.join();
+                    } catch (InterruptedException e1) {
+                    }
+
+                view.getbSolve().setText("Solved !");
+                view.getbSolve().setBackground(Color.black);
+            }
+        }).start();
     }
 }

@@ -9,7 +9,7 @@ public class Main {
         System.out.println("hello world");
 
         //model
-        Grille g = new Grille(5, 5, 20.0);
+        Grille g = new Grille(5, 5, 60.0);
 
         //Vue
         MainWindow mw = new MainWindow(g);

@@ -1,64 +1,96 @@
 package agents.algoPath;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import agents.Agent;
 import environnement.Block;
 import environnement.Grille;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 
-/**
- * Created by Necrolight on 13/11/2015.
- */
 public class Test implements AlgoPath {
     @Override
     public Point getNextPos(Block b, Grille g, Map<Block, Agent> environnement) {
         int offsetx = b.getGoal().x - b.getActual().x;
         int offsety = b.getGoal().y - b.getActual().y;
-
-        if (offsetx >= offsety)
-            offsetx = 0;
-        else
-            offsety = 0;
-
+        List<Point> points = new ArrayList<Point>();
+        
         if (offsetx != 0)
             offsetx = offsetx / Math.abs(offsetx);
+        else
+        {
+	        if(g.checkCaseAt(b.getActual().x, b.getActual().y+(offsety / Math.abs(offsety))))
+	        {
+	        	int alea=new Random().nextInt(4);
+	        	switch(alea)
+	        	{
+	        	case 2:offsetx=1;
+	        	break;
+	        	case 3:offsetx=-1;
+	        	break;
+	        	}
+	        }
+        }
         if (offsety != 0)
             offsety = offsety / Math.abs(offsety);
-
-        if (!g.checkCaseAt(b.getActual().x + offsetx, b.getActual().y + offsety))
+        else
         {
-            System.out.println("Move case autour calcule");
-            return new Point(b.getActual().x+offsetx, b.getActual().y + offsety);
-        } else {
-            List<Point> points = new ArrayList<>();
-
-            Point xplus1 = new Point(b.getActual().x + 1, b.getActual().y);
-            if (!g.checkCaseAt(xplus1))
-                points.add(xplus1);
-
-            Point xmoins1 = new Point(b.getActual().x - 1, b.getActual().y);
-            if (!g.checkCaseAt(xmoins1))
-                points.add(xmoins1);
-
-            Point yplus1 = new Point(b.getActual().x, b.getActual().y + 1);
-            if (!g.checkCaseAt(yplus1))
-                points.add(yplus1);
-
-            Point ymoins1 = new Point(b.getActual().x, b.getActual().y - 1);
-            if (!g.checkCaseAt(ymoins1))
-                points.add(ymoins1);
-
-            if (!points.isEmpty()) {  //case vide autour
-                Random r = new Random();
-                int index = r.nextInt(points.size());
-                System.out.println("Move case autour random");
-                return points.get(index);
-            } else {
-                System.out.println("Aucune case vide autour");
-            }
+        	if(g.checkCaseAt(b.getActual().x+(offsetx / Math.abs(offsetx)), b.getActual().y))
+        	{
+	        	int alea=new Random().nextInt(4);
+	        	switch(alea)
+	        	{
+	        	case 2:offsety=1;
+	        	break;
+	        	case 3:offsety=-1;
+	        	break;
+	        	}
+        	}
         }
+        if (!g.checkCaseAt(b.getActual().x + offsetx, b.getActual().y))
+        {
+        	Point pointaTest=new Point(b.getActual().x+offsetx, b.getActual().y);
+        	//System.out.println("Move case autour calcule");
+        	points.add(pointaTest);
+        }
+        if (!g.checkCaseAt(b.getActual().x, b.getActual().y + offsety))
+        {
+        	Point pointaTest=new Point(b.getActual().x, b.getActual().y + offsety);
+        	//System.out.println("Move case autour calcule");
+        	points.add(pointaTest);
+        }
+        if(!points.isEmpty()){
+        	if(points.size()==2)	
+        	{
+        		Random rand=new Random();
+        		int index=rand.nextInt(2);
+        		//System.out.println("Move case autour calcule");
+        		return points.get(index); 
+        	}
+        	else
+        	{
+        		//System.out.println("Move case autour calcule");
+        		return points.get(0);
+        	}
+        }else
+        {
+        	Random rand=new Random();
+    		int index=rand.nextInt(2);
+    		switch(index)
+    		{
+    		case 0:
+				//System.out.println("Move case pleine");
+            return new Point(b.getActual().x+offsetx, b.getActual().y);
+            
+    		case 1:
+				//System.out.println("Move case pleine");
+            return new Point(b.getActual().x, b.getActual().y + offsety);
+    		}
+        }
+
         return null;
     }
 }

@@ -13,6 +13,7 @@ import java.util.Observer;
 public class MainWindow extends JFrame implements Observer {
     private final Grille modGrille;
     private JPanel p;
+    private JButton bSolve;
 
     public MainWindow(Grille modGrille) throws HeadlessException {
         this.modGrille = modGrille;
@@ -43,19 +44,20 @@ public class MainWindow extends JFrame implements Observer {
 
         this.getContentPane().add(p);
 
-        JButton b = new JButton("Solve");
-        b.addActionListener(new Solve(this));
+        bSolve = new JButton("Solve");
+        bSolve.addActionListener(new Solve(this));
 
-        this.getContentPane().add(b, BorderLayout.SOUTH);
+        this.getContentPane().add(bSolve, BorderLayout.SOUTH);
 
         this.pack();
     }
 
+    public JButton getbSolve() {
+        return bSolve;
+    }
+
     private void update()
     {
-        if (Main.DEBUG)
-            System.out.println("Update view");
-
         p.removeAll();
         p.validate();
         p.repaint();
@@ -88,13 +90,5 @@ public class MainWindow extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         this.update();
-
-        if (Main.DEBUG) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

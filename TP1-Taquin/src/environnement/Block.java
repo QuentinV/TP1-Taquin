@@ -13,10 +13,17 @@ public class Block extends Observable {
     private Point actual;
     private Point previous;
 
-    public Block(int num, Point goal, Point actual) {
+    private int priority;
+
+    public Block(int num, Point goal, Point actual, int priority) {
         this.num = num;
         this.goal = goal;
         this.actual = actual;
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     public int getNum() {
@@ -29,16 +36,6 @@ public class Block extends Observable {
 
     public Point getActual() {
         return actual;
-    }
-
-    public void move(int offsetx, int offsety)
-    {
-        this.previous = new Point(this.actual.x, this.actual.y);
-        this.actual.x += offsetx;
-        this.actual.y += offsety;
-
-        setChanged();
-        notifyObservers();
     }
 
     public void move(Point p)
@@ -70,6 +67,6 @@ public class Block extends Observable {
 
     @Override
     public String toString() {
-        return String.valueOf(this.num)+" "+getActual();
+        return String.valueOf(this.num)+" ["+getActual().x+";"+getActual().y+"]";
     }
 }
