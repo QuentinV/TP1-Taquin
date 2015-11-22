@@ -1,11 +1,10 @@
 
 package environnement;
 
-import ui.Main;
+import ui.Main1;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  *
@@ -34,9 +33,6 @@ public class Grille extends Observable implements Observer {
     }
 
     private void setup() {
-        if (Main.DEBUG)
-            System.out.println("Setup grille");
-
         Random r = new Random();
 
         int nbToGenerate = new Double(this.percentFull * (sizeX * sizeY - 1) / 100).intValue();

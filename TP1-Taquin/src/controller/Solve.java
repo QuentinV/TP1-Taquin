@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Solve implements ActionListener {
+public abstract class Solve implements ActionListener {
     private final MainWindow view;
 
     public List<Agent> agents;
@@ -24,6 +24,8 @@ public class Solve implements ActionListener {
         agents = new ArrayList<>();
         env = new HashMap<>();
     }
+
+    protected abstract Agent createAgent(Block c, Grille g);
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -40,7 +42,7 @@ public class Solve implements ActionListener {
                 Block c = g.getCaseAt(x, y);
                 if (c != null)
                 {
-                    Agent a = new Agent(c, g);
+                    Agent a = this.createAgent(c, g);
                     env.put(c, a);
                     a.setEnvironnement(env);
 

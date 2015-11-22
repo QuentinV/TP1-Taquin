@@ -1,10 +1,9 @@
 package ui;
 
+import controller.Solve1;
 import environnement.Grille;
 
-public class Main {
-    public static boolean DEBUG = false;
-
+public class Main1 {
     public static void main(String[] args) {
         System.out.println("hello world");
 
@@ -13,6 +12,7 @@ public class Main {
 
         //Vue
         MainWindow mw = new MainWindow(g);
+        mw.addController(new Solve1(mw));
 
         //lien
         g.addObserver(mw);

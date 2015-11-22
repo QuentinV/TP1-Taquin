@@ -45,11 +45,14 @@ public class MainWindow extends JFrame implements Observer {
         this.getContentPane().add(p);
 
         bSolve = new JButton("Solve");
-        bSolve.addActionListener(new Solve(this));
-
         this.getContentPane().add(bSolve, BorderLayout.SOUTH);
 
         this.pack();
+    }
+
+    public void addController(Solve s)
+    {
+        bSolve.addActionListener(s);
     }
 
     public JButton getbSolve() {
