@@ -49,6 +49,9 @@ public abstract class Agent extends Thread {
     }
 
     @Override
+    public abstract void run();
+
+    @Override
     public String toString() {
         return "Agent "+b;
     }
