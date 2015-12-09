@@ -8,7 +8,7 @@ public class MainFinal {
         System.out.println("Hello final modelisation IA TAQUIN");
 
         //model
-        Grille g = new Grille(5, 5, 60.0);
+        Grille g = new Grille(5, 5, 95);
 
         //Vue
         MainWindow mw = new MainWindow(g);

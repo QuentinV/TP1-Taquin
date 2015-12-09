@@ -72,7 +72,7 @@ public abstract class Solve implements ActionListener {
                 view.addTime(time);
                 view.getbSolve().setText(String.valueOf(view.addNbTime())+" - Solved in "+new TimeStr(time));
                 view.getbSolve().setBackground(Color.green);
-                view.getlAvTime().setText(new TimeStr((double)view.getSumTime()/(double)view.getNbTime()).toString());
+                view.getlAvTime().setText(String.valueOf(view.getNbTime())+" fois : "+new TimeStr((double)view.getSumTime()/(double)view.getNbTime()).toString());
 
                 g.reset();
                 agents.clear();
