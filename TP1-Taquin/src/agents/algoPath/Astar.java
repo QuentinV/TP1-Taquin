@@ -20,7 +20,7 @@ public class Astar {
             Edge e = new Edge(n.getParent().getPos(), n.getPos());
             if (edgeAvoids != null && edgeAvoids.contains(e)) {
                 v *= 50;
-                System.out.println("edge "+n.getParent().getPos()+" / "+n.getPos());
+                //System.out.println("edge "+n.getParent().getPos()+" / "+n.getPos());
             }
         }
 
@@ -135,12 +135,13 @@ public class Astar {
                 remains.add(p);
 
         Random rand = new Random();
+        int chance = rand.nextInt(100);
 
-        if (remains.isEmpty())
+        if (remains.isEmpty() || chance > 80)
         { //aucune case vide
             do {
                 nextPos = voisins.get(rand.nextInt(voisins.size()));
-            } while (!nextPos.equals(avoid));
+            } while (avoid != null && !nextPos.equals(avoid));
         } else
             nextPos = remains.get(rand.nextInt(remains.size()));
 

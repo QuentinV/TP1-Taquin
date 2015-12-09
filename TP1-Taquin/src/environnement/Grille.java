@@ -69,6 +69,18 @@ public class Grille extends Observable implements Observer {
         }
     }
 
+    public void reset()
+    {
+        for (int x = 0; x < sizeX; ++x)
+            for (int y = 0; y < sizeY; ++y)
+                if (blocks[x][y] != null)
+                {
+                    blocks[x][y].deleteObservers();
+                    blocks[x][y] = null;
+                }
+        setup();
+    }
+
     public Block getCaseAt(int x, int y)
     {
         if (x > sizeX || x < 0 || y < 0 || y > sizeY)
@@ -116,7 +128,7 @@ public class Grille extends Observable implements Observer {
     {
         if (!checkMoveCase(b))
         {
-            System.out.println("Rollback "+b);
+            //System.out.println("Rollback "+b);
             b.rollback();
             return false;
         }
@@ -142,7 +154,7 @@ public class Grille extends Observable implements Observer {
                 setChanged();
                 notifyObservers();
             } else {
-                System.out.println("CONFLICT : ROLLBACK");
+                //System.out.println("CONFLICT : ROLLBACK");
             }
         }
     }

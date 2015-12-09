@@ -4,6 +4,7 @@ import agents.Agent;
 import environnement.Block;
 import environnement.Grille;
 import ui.MainWindow;
+import ui.TimeStr;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,8 @@ public abstract class Solve implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        long timeStart = System.currentTimeMillis();
+
         view.getbSolve().setEnabled(false);
         view.getbSolve().setText("Solving...");
 
@@ -64,8 +67,26 @@ public abstract class Solve implements ActionListener {
                     } catch (InterruptedException e1) {
                     }
 
-                view.getbSolve().setText("Solved !");
-                view.getbSolve().setBackground(Color.black);
+                int time = (int)((System.currentTimeMillis() - timeStart) / 1000);
+
+                view.addTime(time);
+                view.getbSolve().setText(String.valueOf(view.addNbTime())+" - Solved in "+new TimeStr(time));
+                view.getbSolve().setBackground(Color.green);
+                view.getlAvTime().setText(new TimeStr((double)view.getSumTime()/(double)view.getNbTime()).toString());
+
+                g.reset();
+                agents.clear();
+                view.getbSolve().setEnabled(true);
+
+                try
+                {
+                    Thread.sleep(500);
+                } catch (InterruptedException e1)
+                {
+                    e1.printStackTrace();
+                }
+
+                view.getbSolve().doClick();
             }
         }).start();
     }
