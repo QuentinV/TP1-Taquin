@@ -1,19 +1,14 @@
 
 package agents;
 
-import agents.algoPath.Path;
-import agents.algoPath.Edge;
-import agents.algoPath.Test;
-import communication.*;
 import environnement.Block;
 import environnement.Grille;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public abstract class Agent extends Thread {
+    public static int REFRESH_THREAD = 20;
+
     protected final Block b;
     protected Map<Block, Agent> environnement;
     protected final Grille grille;

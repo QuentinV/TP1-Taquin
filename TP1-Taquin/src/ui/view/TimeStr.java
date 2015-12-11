@@ -1,4 +1,4 @@
-package ui;
+package ui.view;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;

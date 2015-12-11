@@ -2,10 +2,6 @@ package communication;
 
 import agents.Agent;
 
-/**
- *
- * @author p1308391
- */
 public class Message {
     private Agent emetteur;
     private Agent destination;

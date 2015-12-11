@@ -1,6 +1,7 @@
 package agents;
 
 import agents.algoPath.Astar;
+import agents.algoPath.Away;
 import communication.*;
 import environnement.Block;
 import environnement.Grille;
@@ -8,8 +9,6 @@ import environnement.Grille;
 import java.awt.*;
 
 public class AgentFinal extends Agent {
-    protected static int REFRESH_THREAD = 10;
-
     public AgentFinal(Block b, Grille grille)
     {
         super(b, grille);
@@ -32,7 +31,7 @@ public class AgentFinal extends Agent {
                 {
                     if (mc.getNextPos() != null && mc.getNextPos().equals(this.getBlock().getActual()))
                     {
-                        Point pNext = new Astar().nextPosAway(b.getActual(), null, grille);
+                        Point pNext = new Away().nextPos(b.getActual(), grille);
                         if (pNext != null) {
                             if (!grille.checkCaseAt(pNext))  //bouger
                             {

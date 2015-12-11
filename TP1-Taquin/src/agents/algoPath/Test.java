@@ -1,18 +1,17 @@
 package agents.algoPath;
 
-import java.awt.Point;
+import agents.Agent;
+import environnement.Block;
+import environnement.Grille;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import agents.Agent;
-import environnement.Block;
-import environnement.Grille;
 
-
-public class Test implements AlgoPath {
-    @Override
+public class Test {
     public Point getNextPos(Block b, Grille g, Map<Block, Agent> environnement) {
         int offsetx = b.getGoal().x - b.getActual().x;
         int offsety = b.getGoal().y - b.getActual().y;

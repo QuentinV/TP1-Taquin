@@ -1,5 +1,7 @@
 package agents.algoPath;
 
+import agents.algoPath.elements.Edge;
+import agents.algoPath.elements.Node;
 import environnement.Block;
 import environnement.Grille;
 
@@ -45,26 +47,11 @@ public class Astar {
         return nBest;
     }
 
-    private List<Point> getVoisins(Point p, Grille g) {
-        List<Point> voisins = new ArrayList<>();
-        int maxX = g.getSizeX();
-        int maxY = g.getSizeY();
-
-        if (p.y + 1 < maxY)
-            voisins.add(new Point(p.x, p.y + 1));
-
-        if (p.y - 1 >= 0)
-            voisins.add(new Point(p.x, p.y - 1));
-
-        if (p.x + 1 < maxX)
-            voisins.add(new Point(p.x + 1, p.y));
-
-        if (p.x - 1 >= 0)
-            voisins.add(new Point(p.x - 1, p.y));
-
-        return voisins;
-    }
-
+    /**
+     * Calculer le plus court chemin d'un point de départ à un but en fonction de la gille
+     * et d'arrêtes à éviter
+     * @return Node goal, can be use to retrieve the whole path
+     */
     public Node shortestPathToGoal(Point s, Point goal, Grille g, List<Edge> edgeAvoids)
     {
         LinkedList<Node> closedSet = new LinkedList<>();
@@ -84,7 +71,7 @@ public class Astar {
             openSet.remove(current);
             closedSet.add(current);
 
-            List<Point> voisins = getVoisins(current.getPos(), g);
+            List<Point> voisins = g.getCaseVoisines(current.getPos());
             for (Point p : voisins)
             {
                 Node v = new Node(current, p, 0);
@@ -110,9 +97,15 @@ public class Astar {
         return null;
     }
 
-    public Point nextPos(Block b, Grille g, List<Edge> edgeAvoids) {
-        Node n = shortestPathToGoal(b.getActual(), b.getGoal(), g, edgeAvoids);
+    /**
+     * Calculer le plus court chemin et retourner la prochaine position où aller
+     * @return next position to go
+     */
+    public Point nextPos(Point start, Point goal, Grille g, List<Edge> edgeAvoids)
+    {
+        Node n = shortestPathToGoal(start, goal, g, edgeAvoids);
 
+        //get the next case to move
         while(n.getParent() != null && n.getParent().getParent() != null)
             n = n.getParent();
 
@@ -121,30 +114,11 @@ public class Astar {
         return n.getPos();
     }
 
-    public Point nextPos(Block b, Grille g) {
-        return nextPos(b, g, null);
+    public Point nextPos(Block b, Grille g, List<Edge> edgeAvoids) {
+        return nextPos(b.getActual(), b.getGoal(), g, edgeAvoids);
     }
 
-    public Point nextPosAway(Point s, Point avoid, Grille g) {
-        Point nextPos = null;
-
-        List<Point> voisins = this.getVoisins(s, g);
-        List<Point> remains = new ArrayList<>();
-        for (Point p : voisins)
-            if (!g.checkCaseAt(p))
-                remains.add(p);
-
-        Random rand = new Random();
-        int chance = rand.nextInt(100);
-
-        if (remains.isEmpty() || chance > 80)
-        { //aucune case vide
-            do {
-                nextPos = voisins.get(rand.nextInt(voisins.size()));
-            } while (avoid != null && !nextPos.equals(avoid));
-        } else
-            nextPos = remains.get(rand.nextInt(remains.size()));
-
-        return nextPos;
+    public Point nextPos(Block b, Grille g) {
+        return nextPos(b, g, null);
     }
 }

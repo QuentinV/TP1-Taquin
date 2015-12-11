@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-/**
- *
- * @author p1308391
- */
 public class BoiteAuxLettres {
     private static final Map<Agent, LinkedList<Message>> boites = 
             new HashMap<Agent, LinkedList<Message>>();

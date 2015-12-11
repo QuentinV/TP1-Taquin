@@ -1,8 +1,7 @@
 package agents;
 
-import agents.algoPath.Edge;
-import agents.algoPath.Path;
-import agents.algoPath.Test;
+import agents.algoPath.Astar;
+import agents.algoPath.elements.Edge;
 import communication.*;
 import environnement.Block;
 import environnement.Grille;
@@ -11,13 +10,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Agent1 extends Agent {
-    protected static int REFRESH_THREAD = 50;
+public class AgentTest extends Agent {
     protected static int MAX_WAITING_TIME = REFRESH_THREAD * 3;
 
     private boolean waitingAnswer;
 
-    public Agent1(Block b, Grille grille) {
+    public AgentTest(Block b, Grille grille) {
         super(b, grille);
 
         this.waitingAnswer = false;
@@ -89,13 +87,11 @@ public class Agent1 extends Agent {
                                 List<Edge> edgeAvoids = new ArrayList<>();
                                 edgeAvoids.add(new Edge(b.getActual(), mc.getCurrentPos()));
 
-                                Point p = null;
-                                if (!b.getActual().equals(b.getGoal()))
-                                    p = new Path().nextPosToGoal(b.getActual(), b.getGoal(), grille, edgeAvoids);
-                                else {
-                                    Point goal = new Point((grille.getSizeX() - 1 - mc.getFinalPos().x) / 2, (grille.getSizeY() - 1 - mc.getFinalPos().y) / 2);
-                                    p = new Path().nextPosToGoal(b.getActual(), goal, grille, edgeAvoids);
-                                }
+                                Point goal = (!b.getActual().equals(b.getGoal()))
+                                                ? b.getGoal()
+                                                : new Point((grille.getSizeX() - 1 - mc.getFinalPos().x) / 2, (grille.getSizeY() - 1 - mc.getFinalPos().y) / 2);
+
+                                Point p = new Astar().nextPos(b.getActual(), goal, grille, edgeAvoids);
 
                                 if (p != null) {
                                     if (!grille.checkCaseAt(p)) { //bouger
@@ -174,8 +170,7 @@ public class Agent1 extends Agent {
             { //Aucun message
                 if (!b.isSatisfy() && !waitingAnswer)
                 {
-                    //Point p = new Path().nextPosToGoal(b.getActual(), b.getGoal(), grille);
-                    Point p = new Test().getNextPos(b, grille, environnement);
+                    Point p = new Astar().nextPos(b, grille);
                     if (p != null) {
                         if (!grille.checkCaseAt(p)) { //bouger
                             b.move(p);

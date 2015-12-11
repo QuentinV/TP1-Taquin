@@ -1,19 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package communication;
 
-import agents.Agent;
+import java.awt.*;
 
-import java.awt.Point;
-
-/**
- *
- * @author p1308391
- */
 public class MessageContent {
     private Transaction trans;
     private Action action;

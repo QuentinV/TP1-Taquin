@@ -1,15 +1,10 @@
 
 package environnement;
 
-import ui.Main1;
-
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
-/**
- *
- * @author p1308391
- */
 public class Grille extends Observable implements Observer {
     private final Block[][] blocks;
     private final int sizeX;
@@ -104,6 +99,24 @@ public class Grille extends Observable implements Observer {
 
     public int getSizeY() {
         return sizeY;
+    }
+
+    public List<Point> getCaseVoisines(Point p) {
+        List<Point> voisins = new ArrayList<>();
+
+        if (p.y + 1 < this.getSizeY())
+            voisins.add(new Point(p.x, p.y + 1));
+
+        if (p.y - 1 >= 0)
+            voisins.add(new Point(p.x, p.y - 1));
+
+        if (p.x + 1 < this.getSizeX())
+            voisins.add(new Point(p.x + 1, p.y));
+
+        if (p.x - 1 >= 0)
+            voisins.add(new Point(p.x - 1, p.y));
+
+        return voisins;
     }
 
     /**

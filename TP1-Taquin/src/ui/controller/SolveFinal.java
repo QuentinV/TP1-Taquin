@@ -1,10 +1,10 @@
-package controller;
+package ui.controller;
 
 import agents.Agent;
 import agents.AgentFinal;
 import environnement.Block;
 import environnement.Grille;
-import ui.MainWindow;
+import ui.view.MainWindow;
 
 public class SolveFinal extends Solve {
     public SolveFinal(MainWindow view) {

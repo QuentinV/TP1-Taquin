@@ -1,10 +1,10 @@
-package controller;
+package ui.controller;
 
 import agents.Agent;
 import environnement.Block;
 import environnement.Grille;
-import ui.MainWindow;
-import ui.TimeStr;
+import ui.view.MainWindow;
+import ui.view.TimeStr;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

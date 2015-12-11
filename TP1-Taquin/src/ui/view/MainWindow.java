@@ -1,6 +1,6 @@
-package ui;
+package ui.view;
 
-import controller.Solve;
+import ui.controller.Solve;
 import environnement.Block;
 import environnement.Grille;
 

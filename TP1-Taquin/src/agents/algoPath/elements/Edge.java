@@ -1,4 +1,4 @@
-package agents.algoPath;
+package agents.algoPath.elements;
 
 import java.awt.*;
 

@@ -3,10 +3,6 @@ package environnement;
 import java.awt.*;
 import java.util.Observable;
 
-/**
- *
- * @author p1308391
- */
 public class Block extends Observable {
     private final int num;
     private final Point goal;
