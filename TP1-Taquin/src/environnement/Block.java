@@ -5,9 +5,9 @@ import java.util.Observable;
 
 public class Block extends Observable {
     private final int num;
-    private final Point goal;
-    private Point actual;
-    private Point previous;
+    private final Point goal; //where to go
+    private Point actual;     //where I am
+    private Point previous;   //where I was - only use in rollback
 
     private int priority;
 

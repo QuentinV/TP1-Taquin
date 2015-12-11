@@ -5,9 +5,9 @@ import java.awt.*;
 public class MessageContent {
     private Transaction trans;
     private Action action;
-    private Point nextPos;
-    private Point finalPos;
-    private Point currentPos;
+    private Point nextPos;  //prochaine position souhaitée
+    private Point finalPos; //position final (but)
+    private Point currentPos; //position actuelle
 
     public MessageContent(Transaction trans, Action action, Point currentPos, Point nextPos, Point finalPos) {
         this.trans = trans;
